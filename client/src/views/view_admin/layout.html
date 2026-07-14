@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barranquilla Convive - Panel Administrador</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f79c1d',
+                        bgLight: '#fcfcfc',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    </style>
+</head>
+<body class="bg-bgLight text-gray-800 h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <aside class="w-full md:w-64 bg-white border-r border-gray-100 p-6 flex flex-col justify-between shrink-0 hidden md:flex">
+        <div>
+            <div class="border-2 border-dashed border-gray-200 rounded-lg p-3 text-center mb-8 h-[70px] flex items-center justify-center">
+                <span class="text-[10px] text-gray-400 font-medium leading-tight">
+                    Logo de Barranquilla Convive<br>(150px x 60px)
+                </span>
+            </div>
+
+            <nav class="space-y-1">
+                <a href="#" class="flex items-center px-4 py-3 bg-primary text-white rounded-xl font-medium transition-colors">
+                    <i class="fa-solid fa-house w-5 mr-3"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="#" onclick="alert('Módulo de Usuarios')" class="flex items-center px-4 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-800 rounded-xl font-medium transition-colors">
+                    <i class="fa-solid fa-users w-5 mr-3"></i>
+                    <span>Usuarios</span>
+                </a>
+                <a href="#" onclick="alert('Módulo de Instituciones')" class="flex items-center px-4 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-800 rounded-xl font-medium transition-colors">
+                    <i class="fa-solid fa-school w-5 mr-3"></i>
+                    <span>Instituciones</span>
+                </a>
+                <a href="#" onclick="alert('Módulo de Alertas')" class="flex items-center px-4 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-800 rounded-xl font-medium transition-colors">
+                    <i class="fa-solid fa-bell w-5 mr-3"></i>
+                    <span>Alertas</span>
+                </a>
+                <a href="#" onclick="alert('Módulo de Estadísticas')" class="flex items-center px-4 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-800 rounded-xl font-medium transition-colors">
+                    <i class="fa-solid fa-chart-simple w-5 mr-3"></i>
+                    <span>Estadísticas</span>
+                </a>
+                <a href="#" onclick="alert('Módulo de Reportes')" class="flex items-center px-4 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-800 rounded-xl font-medium transition-colors">
+                    <i class="fa-solid fa-file-lines w-5 mr-3"></i>
+                    <span>Reportes</span>
+                </a>
+                <a href="#" onclick="alert('Módulo de Configuración')" class="flex items-center px-4 py-3 text-gray-500 hover:bg-gray-50 hover:text-gray-800 rounded-xl font-medium transition-colors">
+                    <i class="fa-solid fa-gear w-5 mr-3"></i>
+                    <span>Configuración</span>
+                </a>
+            </nav>
+        </div>
+        <div class="text-xs text-gray-400 text-center">v1.2.0 Admin Panel</div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-full overflow-hidden">
+        
+        <header class="h-20 bg-white border-b border-gray-100 px-8 flex items-center justify-between shrink-0">
+            <div>
+                <h1 id="topbar-saludo" class="text-xl md:text-2xl font-bold text-gray-900">Bienvenido, Administrador</h1>
+                <p id="topbar-rol-badge" class="text-xs font-semibold text-primary mt-0.5">
+                    <i class="fa-solid fa-shield-halved mr-1"></i>Rol: Administrador General
+                </p>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <button class="relative text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+                </button>
+
+                <div class="relative">
+                    <button id="profileDropdownBtn" class="flex items-center gap-3 py-2 px-3 hover:bg-gray-50 rounded-xl transition-colors focus:outline-none">
+                        <div id="avatar-letras" class="w-9 h-9 bg-amber-100 text-primary font-semibold rounded-lg flex items-center justify-center border border-amber-200 text-sm">
+                            AD
+                        </div>
+                        <span id="nombre-usuario-dropdown" class="text-sm font-semibold text-gray-700">Administrador</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform duration-200" id="dropdownArrow"></i>
+                    </button>
+
+                    <div id="profileDropdownMenu" class="hidden absolute right-0 mt-2 w-64 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-50 transform origin-top-right transition-all duration-150">
+                        <div class="px-4 py-3 border-b border-gray-50">
+                            <p class="text-xs text-gray-400 font-medium">CONECTADO COMO</p>
+                            <p id="dropdown-nombre-completo" class="text-sm font-bold text-gray-800">Admin Central</p>
+                            <p id="dropdown-correo" class="text-xs text-gray-500">admin@barranquillaconvive.gov.co</p>
+                        </div>
+                        
+                        <div class="px-4 py-2 border-b border-gray-50">
+                            <p class="text-[10px] text-gray-400 font-bold tracking-wider mb-1">CAMBIAR ROL (DEMO)</p>
+                            <div class="space-y-1">
+                                <button onclick="cambiarRol('administrador')" class="w-full text-left flex items-center gap-2 text-xs text-amber-600 bg-amber-50 px-2 py-1.5 rounded-md font-semibold">
+                                    <i class="fa-solid fa-shield-halved"></i> Administrador
+                                </button>
+                                <button onclick="cambiarRol('psicologa')" class="w-full text-left flex items-center gap-2 text-xs text-gray-600 hover:text-gray-950 hover:bg-gray-50 px-2 py-1.5 rounded-md transition-colors">
+                                    <i class="fa-solid fa-user-doctor text-sky-500"></i> Psicóloga
+                                </button>
+                                <button onclick="cambiarRol('profesor')" class="w-full text-left flex items-center gap-2 text-xs text-gray-600 hover:text-gray-950 hover:bg-gray-50 px-2 py-1.5 rounded-md transition-colors">
+                                    <i class="fa-solid fa-chalkboard-user text-emerald-500"></i> Profesor
+                                </button>
+                                <button onclick="cambiarRol('padre')" class="w-full text-left flex items-center gap-2 text-xs text-gray-600 hover:text-gray-950 hover:bg-gray-50 px-2 py-1.5 rounded-md transition-colors">
+                                    <i class="fa-solid fa-children text-purple-500"></i> Padre de Familia
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="p-1">
+                            <button onclick="cerrarSesion()" class="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-xl flex items-center gap-3 font-semibold transition-colors">
+                                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main id="contenido-dinamico" class="flex-1 overflow-y-auto p-6 md:p-8 space-y-8">
+            </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
