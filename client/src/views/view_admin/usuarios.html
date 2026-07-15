@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barranquilla Convive - Gestión de Usuarios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#F59E0B',
+                            'orange-hover': '#D97706'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex overflow-x-hidden">
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 z-40 hidden md:hidden"></div>
+
+    <div id="sidebar-target"></div>
+
+    <div class="flex-1 flex flex-col min-w-0 min-h-screen overflow-x-hidden">
+        <div id="topbar-target"></div>
+
+        <main class="p-4 md:p-8 space-y-6">
+            
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                    <span class="text-[11px] md:text-xs font-bold text-slate-400 uppercase tracking-wider">Total Psicólogas</span>
+                    <h3 class="text-2xl md:text-3xl font-black text-slate-800 mt-1" id="kpi-psicologas">1</h3>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                    <span class="text-[11px] md:text-xs font-bold text-slate-400 uppercase tracking-wider">Total Profesores</span>
+                    <h3 class="text-2xl md:text-3xl font-black text-slate-800 mt-1" id="kpi-profesores">1</h3>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                    <span class="text-[11px] md:text-xs font-bold text-slate-400 uppercase tracking-wider">Padres de Familia</span>
+                    <h3 class="text-2xl md:text-3xl font-black text-slate-800 mt-1" id="kpi-padres">1</h3>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                    <span class="text-[11px] md:text-xs font-bold text-slate-400 uppercase tracking-wider">Total General</span>
+                    <h3 class="text-2xl md:text-3xl font-black text-slate-800 mt-1" id="kpi-total">4</h3>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                
+                <div class="p-4 md:p-6 border-b border-slate-100 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div class="flex flex-col sm:flex-row gap-3 flex-1 max-w-3xl">
+                        <div class="relative flex-1 min-w-[200px]">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <input id="search-input" type="text" placeholder="Buscar por nombre o documento..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-amber-500 transition-colors">
+                        </div>
+                        <select id="filter-rol" class="px-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:border-amber-500 cursor-pointer">
+                            <option value="">Filtrar por Rol</option>
+                            <option value="Psicóloga">Psicóloga</option>
+                            <option value="Profesor">Profesor</option>
+                            <option value="Padre de Familia">Padre de Familia</option>
+                            <option value="Rector / Admin">Rector / Admin</option>
+                        </select>
+                        <select id="filter-colegio" class="px-4 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:border-amber-500 cursor-pointer">
+                            <option value="">Filtrar por Colegio</option>
+                            <option value="IED La Concepción">IED La Concepción</option>
+                            <option value="IED Jorge Robledo">IED Jorge Robledo</option>
+                            <option value="IED San José">IED San José</option>
+                        </select>
+                    </div>
+
+                    <button id="btn-crear-usuario" class="bg-amber-500 hover:bg-amber-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-colors shrink-0">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Crear Usuario</span>
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[800px]">
+                        <thead>
+                            <tr class="bg-slate-50/55 border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                                <th class="py-4 px-6">Nombre y Contacto</th>
+                                <th class="py-4 px-6">Identificación</th>
+                                <th class="py-4 px-6">Rol / Perfil</th>
+                                <th class="py-4 px-6">Institución y Asignación</th>
+                                <th class="py-4 px-6">Estado</th>
+                                <th class="py-4 px-6 text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuarios-table-body" class="divide-y divide-slate-100 text-sm text-slate-700">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="usuarios.js"></script>
+</body>
+</html>
